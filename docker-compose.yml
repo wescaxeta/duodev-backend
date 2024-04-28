@@ -1,0 +1,35 @@
+services:
+  mysql:
+    image: 'mysql:5.7'
+    container_name: 'duodev-mysql'
+    restart: unless-stopped
+    networks:
+      - "duodev-network"
+    environment:
+      - 'MYSQL_DATABASE=duodev-db'
+      - 'MYSQL_PASSWORD=55zLt9'
+      - 'MYSQL_ROOT_PASSWORD=B8m1122PRQ'
+      - 'MYSQL_USER=duodev-user'
+    ports:
+      - '3306:3306'
+  duo-dev:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: 'duodev/duodev-backend:0.0.1'
+    container_name: 'duodev-backend'
+    restart: unless-stopped
+    networks:
+      - "duodev-network"
+    environment:
+      - 'DB_HOST=duodev-mysql'
+      - 'DB_PORT=3306'
+      - 'DB_DATABASE=duodev-db'
+      - 'DB_USERNAME=duodev-user'
+      - 'DB_PASSWORD=55zLt9'
+    ports:
+      - '8080:8080'
+
+
+networks:
+  duodev-network:
