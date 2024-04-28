@@ -2,8 +2,8 @@ services:
   mysql:
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
+      timeout: 15s
+      retries: 3
     image: 'mysql:5.7'
     container_name: 'duodev-mysql'
     restart: unless-stopped
