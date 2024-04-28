@@ -1,5 +1,9 @@
 services:
   mysql:
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     image: 'mysql:5.7'
     container_name: 'duodev-mysql'
     restart: unless-stopped
@@ -13,6 +17,9 @@ services:
     ports:
       - '3306:3306'
   duo-dev:
+    depends_on:
+      mysql:
+        condition: service_healthy
     build:
         context: .
         dockerfile: Dockerfile
